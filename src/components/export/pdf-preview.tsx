@@ -1,11 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
 import { BlobProvider } from "@react-pdf/renderer";
 import {
   DownloadSimpleIcon,
   SpinnerIcon,
-  FileCodeIcon,
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { ResumePdfDocument } from "@/components/export/resume-pdf-document";
@@ -13,16 +11,9 @@ import type { Resume } from "@/types/resume";
 
 interface PdfPreviewProps {
   resume: Resume;
-  texSource?: string;
 }
 
-export function PdfPreview({ resume, texSource }: PdfPreviewProps) {
-  const texBlobUrl = useMemo(() => {
-    if (!texSource) return null;
-    const blob = new Blob([texSource], { type: "text/x-tex" });
-    return URL.createObjectURL(blob);
-  }, [texSource]);
-
+export function PdfPreview({ resume }: PdfPreviewProps) {
   return (
     <BlobProvider document={<ResumePdfDocument resume={resume} />}>
       {({ url, loading, error }) => {
@@ -52,40 +43,21 @@ export function PdfPreview({ resume, texSource }: PdfPreviewProps) {
               className="h-[400px] w-full rounded-md border"
               title="Resume PDF Preview"
             />
-            <div className="flex gap-2">
-              <Button
-                size="sm"
-                render={
-                  <a href={url} download={`${resume.name}-tailored.pdf`} />
-                }
-              >
-                <DownloadSimpleIcon
-                  size={16}
-                  weight="bold"
-                  className="mr-1.5"
-                />
-                Download PDF
-              </Button>
-              {texBlobUrl && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  render={
-                    <a
-                      href={texBlobUrl}
-                      download={`${resume.name}.tex`}
-                    />
-                  }
-                >
-                  <FileCodeIcon
-                    size={16}
-                    weight="bold"
-                    className="mr-1.5"
-                  />
-                  Download TeX
-                </Button>
-              )}
-            </div>
+            <Button
+              size="sm"
+              nativeButton={false}
+              className="transition-all active:scale-95"
+              render={
+                <a href={url} download={`${resume.name}-tailored.pdf`} />
+              }
+            >
+              <DownloadSimpleIcon
+                size={16}
+                weight="bold"
+                className="mr-1.5"
+              />
+              Download PDF
+            </Button>
           </div>
         );
       }}

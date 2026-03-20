@@ -9,7 +9,7 @@ import { TRPCReactProvider } from "@/trpc/react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const metadata: Metadata = {
-  title: "ResumeForge",
+  title: "DraftCV",
   description: "Build tailored resumes with drag & drop",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };

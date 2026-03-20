@@ -119,7 +119,7 @@ export function UploadZone() {
               size={48}
               className="animate-spin text-muted-foreground"
             />
-            <p className="font-serif text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               {uploadStatus === "uploading"
                 ? "Uploading resume..."
                 : "Parsing resume with AI..."}

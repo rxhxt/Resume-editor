@@ -9,25 +9,30 @@ import {
 } from "@react-pdf/renderer";
 import type { Resume, Section, SectionItem } from "@/types/resume";
 
+// Styles matching the LaTeX template:
+// - 0.5in left/right margins, 0.4in top, 0.5in bottom
+// - \baselinestretch{0.82} → tight line spacing
+// - \LARGE bold name, \small contact, \large\bfseries section titles with \titlerule
+// - itemsep=1ex between bullets
 const styles = StyleSheet.create({
   page: {
-    paddingTop: 24,
-    paddingLeft: 36,
-    paddingRight: 36,
-    paddingBottom: 24,
-    fontSize: 10,
+    paddingTop: 29, // 0.4in
+    paddingLeft: 36, // 0.5in
+    paddingRight: 36, // 0.5in
+    paddingBottom: 36, // 0.5in
+    fontSize: 10.5,
     fontFamily: "Helvetica",
     color: "#000",
-    lineHeight: 1.12,
+    lineHeight: 1.0, // baselinestretch 0.82 × default 1.2 ≈ 0.98
   },
   header: {
-    marginBottom: 8,
+    marginBottom: 4,
     textAlign: "center",
   },
   name: {
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: "Helvetica-Bold",
-    marginBottom: 4,
+    marginBottom: 6,
   },
   contactRow: {
     flexDirection: "row",
@@ -35,24 +40,25 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   contactItem: {
-    fontSize: 9,
+    fontSize: 8.5,
     color: "#000",
   },
   contactSeparator: {
-    fontSize: 9,
+    fontSize: 8.5,
     color: "#000",
   },
   section: {
-    marginBottom: 5,
+    marginBottom: 4,
   },
   sectionTitle: {
-    fontSize: 11.5,
+    fontSize: 13,
     fontFamily: "Helvetica-Bold",
     textTransform: "uppercase",
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.8,
     borderBottomColor: "#000",
     paddingBottom: 2,
     marginBottom: 4,
+    marginTop: 2,
   },
   item: {
     marginBottom: 4,
@@ -61,44 +67,54 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginBottom: 1,
+    marginBottom: 0,
   },
   itemBoldText: {
-    fontSize: 10,
+    fontSize: 10.5,
     fontFamily: "Helvetica-Bold",
+    maxWidth: "72%",
   },
   itemItalicText: {
-    fontSize: 10,
+    fontSize: 10.5,
     fontStyle: "italic",
+    marginBottom: 1,
   },
   itemPlainText: {
-    fontSize: 10,
+    fontSize: 10.5,
   },
   itemDateText: {
-    fontSize: 10,
+    fontSize: 10.5,
     fontStyle: "italic",
+    textAlign: "right",
+    flexShrink: 0,
   },
   bullet: {
     flexDirection: "row",
-    marginBottom: 2,
-    paddingLeft: 8,
+    marginBottom: 4, // itemsep=1ex ≈ 4pt at 10.5pt
+    paddingLeft: 10,
   },
   bulletDot: {
-    width: 8,
-    fontSize: 10,
+    width: 10,
+    fontSize: 10.5,
   },
   bulletText: {
     flex: 1,
-    fontSize: 10,
-    lineHeight: 1.12,
+    fontSize: 10.5,
+    lineHeight: 1.15,
   },
   summaryText: {
-    fontSize: 10,
-    lineHeight: 1.12,
+    fontSize: 10.5,
+    lineHeight: 1.15,
   },
   skillRow: {
-    fontSize: 9.5,
-    marginBottom: 2,
+    fontSize: 10.5,
+    marginBottom: 3,
+    lineHeight: 1.15,
+  },
+  educationInline: {
+    flexDirection: "row",
+    fontSize: 10.5,
+    marginTop: 1,
   },
 });
 
@@ -137,9 +153,7 @@ function SkillsSection({ section }: { section: Section }) {
 }
 
 function EducationItem({ item }: { item: SectionItem }) {
-  const institutionLine = [item.subtitle, item.location]
-    .filter(Boolean)
-    .join(", ");
+  const gpaText = item.bullets.map((b) => b.text).join(", ");
 
   return (
     <View style={styles.item}>
@@ -149,15 +163,12 @@ function EducationItem({ item }: { item: SectionItem }) {
           <Text style={styles.itemDateText}>{item.dateRange}</Text>
         )}
       </View>
-      {institutionLine && (
-        <Text style={styles.itemPlainText}>{institutionLine}</Text>
-      )}
-      {item.bullets.map((bullet) => (
-        <View key={bullet.id} style={styles.bullet}>
-          <Text style={styles.bulletDot}>•</Text>
-          <Text style={styles.bulletText}>{bullet.text}</Text>
-        </View>
-      ))}
+      <View style={styles.educationInline}>
+        {item.subtitle && <Text>{item.subtitle}</Text>}
+        {gpaText && (
+          <Text>{"    "}{gpaText}</Text>
+        )}
+      </View>
     </View>
   );
 }

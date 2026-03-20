@@ -5,10 +5,15 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--font-open-sans), "SF Pro Display", ui-sans-serif,
-    system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+  --font-sans: var(--font-open-sans), system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
-  --font-serif: var(--font-georgia-pro), Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-georgia-pro), Georgia, "Iowan Old Style",
+    "Apple Garamond", Baskerville, "Palatino Linotype", "Book Antiqua",
+    "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
 }
 
 :root {
@@ -199,7 +204,7 @@
   h1,
   h2,
   h3 {
-    @apply font-serif font-bold leading-6 text-foreground;
+    @apply font-sans font-bold leading-6 text-foreground;
   }
 
   h4,
