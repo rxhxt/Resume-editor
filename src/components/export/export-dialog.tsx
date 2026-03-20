@@ -32,7 +32,6 @@ interface ExportDialogProps {
 
 export function ExportDialog({ open, onOpenChange }: ExportDialogProps) {
   const tailoredResume = useResumeStore((s) => s.tailoredResume);
-  const masterTexSource = useResumeStore((s) => s.masterResume?.texSource);
   // Cache resume data to prevent content flash on close
   const [cachedResume] = useState(tailoredResume);
   const resume = tailoredResume ?? cachedResume;
@@ -45,11 +44,12 @@ export function ExportDialog({ open, onOpenChange }: ExportDialogProps) {
         <DialogHeader>
           <DialogTitle>Export PDF</DialogTitle>
           <DialogDescription>
-            Preview and download your tailored resume as a PDF.
+            Preview and download your tailored resume, or copy the LaTeX source
+            for Overleaf.
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col items-center gap-4 py-4">
-          <PdfPreview resume={resume} texSource={masterTexSource} />
+          <PdfPreview resume={resume} />
         </div>
       </DialogContent>
     </Dialog>

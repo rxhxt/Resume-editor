@@ -156,7 +156,7 @@ export function TailoredPanel() {
                 <div className="absolute -bottom-2 -right-2 h-4 w-4 border-b-2 border-r-2 border-muted-foreground/20" />
               </div>
               <div className="text-center">
-                <p className="font-serif text-lg font-semibold text-muted-foreground/70">
+                <p className="text-lg font-semibold text-muted-foreground/70">
                   Begin building
                 </p>
                 <p className="mt-1 max-w-[240px] text-sm text-muted-foreground/50">

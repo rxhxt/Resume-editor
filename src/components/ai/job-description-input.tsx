@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQueryState } from "nuqs";
 import {
   MagnifyingGlassIcon,
@@ -35,6 +35,14 @@ export function JobDescriptionInput() {
 
   const isOpen = sheetOpen === "open";
   const hasScores = relevanceScores.length > 0;
+
+  // Pre-fill from persisted job description when sheet opens
+  useEffect(() => {
+    if (isOpen && jobDescription) {
+      setText(jobDescription.description);
+      setUrl(jobDescription.url ?? "");
+    }
+  }, [isOpen, jobDescription]);
 
   const handleAnalyze = async () => {
     if (!text.trim() || !masterResume) return;

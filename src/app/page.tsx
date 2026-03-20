@@ -77,12 +77,12 @@ export default function Home() {
             />
           </div>
           <h1 className="text-5xl font-bold tracking-tight md:text-6xl">
-            ResumeForge
+            DraftCV
           </h1>
           <div className="ornamental-rule w-48">
             <span className="text-xs text-muted-foreground/30">&#x25C6;</span>
           </div>
-          <p className="max-w-xl text-center font-serif text-base font-light text-muted-foreground md:text-lg">
+          <p className="max-w-xl text-center text-base font-light text-muted-foreground md:text-lg">
             Upload your comprehensive resume and build tailored versions with
             drag & drop
           </p>

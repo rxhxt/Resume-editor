@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -30,6 +30,11 @@ export default function EditorPage() {
   const router = useRouter();
   const masterResume = useResumeStore((s) => s.masterResume);
   const { activeDragData, onDragStart, onDragEnd } = useDragHandlers();
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -37,10 +42,10 @@ export default function EditorPage() {
   );
 
   useEffect(() => {
-    if (!masterResume) {
+    if (hydrated && !masterResume) {
       router.push("/");
     }
-  }, [masterResume, router]);
+  }, [hydrated, masterResume, router]);
 
   // Use pointerWithin first (best for cross-container), fall back to rectIntersection
   const collisionDetection: CollisionDetection = (args) => {
@@ -49,7 +54,7 @@ export default function EditorPage() {
     return rectIntersection(args);
   };
 
-  if (!masterResume) return null;
+  if (!hydrated || !masterResume) return null;
 
   return (
     <motion.div
